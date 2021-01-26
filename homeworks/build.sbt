@@ -9,7 +9,7 @@ version := "1.0"
 scalacOptions ++= Seq(
   "-deprecation",
   "-feature",
-  "-Ymacro-annotations",
+  "-Ymacro-annotations"
 )
 val scalaTestVersion = "3.1.0.0-RC2"
 
