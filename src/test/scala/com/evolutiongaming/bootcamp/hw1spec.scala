@@ -9,35 +9,43 @@ import java.security.InvalidParameterException
 
 class BasicsSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks {
   "lcm" should "derive least common multiple of 213 and 109" in {
-    lcm(213, 109) shouldEqual 23217
+    lcm(213, 109) shouldEqual Some(23217)
   }
 
-  forAll { (x: Int, y: Int) =>
-    whenever(x == 0 || y == 0) {
-      an[IllegalArgumentException] should be thrownBy lcm(x, y)
+  "lcm" should "not be defined for arguments that are zero" in {
+    forAll { (x: Int, y: Int) =>
+      whenever(x == 0 || y == 0) {
+        lcm(x, y) shouldEqual None
+      }
     }
   }
 
+
   "lcm" should "work for negative arguments" in {
     all(
-      lcm(213, 109) :: lcm(-213, 109) :: lcm(213, -109) :: lcm(-213, -109) :: Nil
-    ) shouldEqual 23217
+      lcm(213, 109) :: lcm(-213, 109) :: lcm(213, -109) :: lcm(
+        -213,
+        -109
+      ) :: Nil
+    ) shouldEqual Some(23217)
   }
 
   "gcd" should "work when exactly one of the arguments is 0" in {
     forAll { x: Int =>
       whenever(x != 0) {
-        gcd(0, x) shouldEqual Math.abs(x)
-        gcd(x, 0) shouldEqual Math.abs(x)
+        gcd(0, x) shouldEqual Some(Math.abs(x))
+        gcd(x, 0) shouldEqual Some(Math.abs(x))
       }
     }
   }
 
-  an[IllegalArgumentException] should be thrownBy gcd(0, 0)
+  "gcd" should "not be defined for (0,0)" in {
+    gcd(0, 0) shouldEqual None
+  }
 
   "gcd" should "have gcd(a,b) == gcd(-a,b) == gcd(a,-b) == gcd(-a,-b)" in {
     all(
       gcd(24, 18) :: gcd(-24, 18) :: gcd(24, -18) :: gcd(-24, -18) :: Nil
-    ) shouldEqual 6
+    ) shouldEqual Some(6)
   }
 }
