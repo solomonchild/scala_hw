@@ -13,10 +13,11 @@ class BasicsSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks {
   }
 
   "lcm" should "not be defined for arguments that are zero" in {
-    forAll { (x: Int, y: Int) =>
-      whenever(x == 0 || y == 0) {
-        lcm(x, y) shouldEqual None
-      }
+    forAll { x: Int =>
+        lcm(x, 0) shouldEqual None
+    }
+    forAll { x: Int =>
+        lcm(0, x) shouldEqual None
     }
   }
 
