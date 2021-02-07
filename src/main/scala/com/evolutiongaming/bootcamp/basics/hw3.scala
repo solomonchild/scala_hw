@@ -24,7 +24,7 @@ object ControlStructuresHomework {
 
     if (dtl.exists(x => x.isEmpty))
       Left(ErrorMessage("Not every argument is convertible to Double"))
-    else if(dtl.isEmpty)
+    else if (dtl.isEmpty)
       Left(ErrorMessage("No arguments provided"))
     else
       h match {
