@@ -16,9 +16,10 @@ object Collections {
   def shuffle(nums: Array[Int], n: Int): Array[Int] = {
     import scala.language.implicitConversions;
     implicit def asIterable(
-        a: (Int, Int)
+        p: (Int, Int)
     ): scala.collection.IterableOnce[Int] = {
-      Array(a._1, a._2)
+      val (a, b) = p
+      Array(a, b)
     }
     nums.zip(nums.slice(n, 2 * n)).flatten
   }
