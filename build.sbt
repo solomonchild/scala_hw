@@ -2,9 +2,9 @@
 scalaVersion := "2.13.3"
 
 name := "hello-world"
-organization := "ch.epfl.scala"
 version := "1.0"
 
+enablePlugins(BulkySourcesPlugin)
 
 scalacOptions ++= Seq(
   "-deprecation",

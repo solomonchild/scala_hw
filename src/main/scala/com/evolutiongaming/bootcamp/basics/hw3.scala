@@ -1,6 +1,7 @@
 package com.evolutiongaming.bootcamp.basics
 
 import scala.io.Source
+import scala.util.Try
 
 object ControlStructuresHomework {
   sealed trait Command
@@ -20,7 +21,7 @@ object ControlStructuresHomework {
 
   def parseCommand(x: String): Either[ErrorMessage, Command] = {
     val h :: tl = x.trim.split(" ").toList.filter(x => x != "")
-    val dtl = tl.map(x => x.toDoubleOption)
+    val dtl = tl.map(x => Try(x.toDouble)).map(x=>x.toOption)
 
     if (dtl.exists(x => x.isEmpty))
       Left(ErrorMessage("Not every argument is convertible to Double"))

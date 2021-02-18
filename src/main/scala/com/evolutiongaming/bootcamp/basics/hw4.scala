@@ -17,7 +17,7 @@ object Collections {
     import scala.language.implicitConversions;
     implicit def asIterable(
         p: (Int, Int)
-    ): scala.collection.IterableOnce[Int] = {
+    ): Iterable[Int] = {
       val (a, b) = p
       Array(a, b)
     }
