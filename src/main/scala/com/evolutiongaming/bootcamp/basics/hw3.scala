@@ -19,8 +19,8 @@ object ControlStructuresHomework {
   }
 
   def parseCommand(x: String): Either[ErrorMessage, Command] = {
-    val h :: tl = x.trim.split(" ").toList.filter(x => x != "")
-    val dtl = tl.map(x => x.toDoubleOption)
+    val h :: tl = x.trim.split("\\s+").toList.filter(x => x != "")
+    val dtl = tl.map(x => Try(x.toDouble)).map(x=>x.toOption)
 
     if (dtl.exists(x => x.isEmpty))
       Left(ErrorMessage("Not every argument is convertible to Double"))
@@ -28,8 +28,10 @@ object ControlStructuresHomework {
       Left(ErrorMessage("No arguments provided"))
     else
       h match {
-        case "divide" if dtl.length == 2 =>
-          Right(Command.Divide(dtl(0).get, dtl(1).get))
+        case "divide" => dtl match {
+          case x :: y :: Nil => Right(Command.Divide(dtl(0).get, dtl(1).get))
+          case _         => Left(ErrorMessage(s"Wrong number of parameters for divide"))
+        }
         case "sum"     => Right(Command.Sum(dtl.flatMap(x => x)))
         case "average" => Right(Command.Average(dtl.flatMap(x => x)))
         case "min"     => Right(Command.Min(dtl.flatMap(x => x)))
@@ -58,10 +60,7 @@ object ControlStructuresHomework {
     (for {
       cmd <- parseCommand(x)
       res <- calculate(cmd)
-    } yield res) match {
-      case Left(x)  => s"Error: ${x.value}"
-      case Right(x) => x.toString
-    }
+    } yield res).fold(x => s"Error: ${x.value}", x => x.toString)
   }
 
   def main(args: Array[String]): Unit =
