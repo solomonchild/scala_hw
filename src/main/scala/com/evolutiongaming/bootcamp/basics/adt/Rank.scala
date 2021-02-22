@@ -1,6 +1,6 @@
 package com.evolutiongaming.bootcamp.basics.adt
 
-abstract class Rank(score: Int)
+abstract sealed class Rank(score: Int)
 object Rank {
   final case object LowAce extends Rank(1)
   final case object Two extends Rank(2)
