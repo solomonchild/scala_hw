@@ -1,6 +1,7 @@
 package com.evolutiongaming.bootcamp.basics
 
 import scala.io.Source
+import scala.util.Try
 
 object ControlStructuresHomework {
   sealed trait Command
